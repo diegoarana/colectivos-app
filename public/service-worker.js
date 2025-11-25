@@ -1,4 +1,4 @@
-const CACHE_NAME = 'colectivos-v1';
+const CACHE_NAME = 'colectivos-v2'; // ⬅️ CAMBIA ESTO en cada actualización
 const urlsToCache = [
   '/',
   '/index.html',
@@ -10,11 +10,11 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Cache abierto');
+        console.log('✅ Cache abierto');
         return cache.addAll(urlsToCache);
       })
   );
-  self.skipWaiting();
+  // NO llamar skipWaiting() aquí - esperar mensaje del cliente
 });
 
 // Activación
@@ -24,21 +24,41 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('🗑️ Eliminando cache viejo:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
-  self.clients.claim();
+  return self.clients.claim();
 });
 
-// Fetch
+// Escuchar mensaje para activar nueva versión
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Fetch - Network first, luego cache
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        return response || fetch(event.request);
+        // Clonar la respuesta
+        const responseClone = response.clone();
+        
+        // Guardar en cache
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseClone);
+        });
+        
+        return response;
+      })
+      .catch(() => {
+        // Si falla, usar cache
+        return caches.match(event.request);
       })
   );
 });

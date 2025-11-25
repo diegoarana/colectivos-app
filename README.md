@@ -12,8 +12,19 @@ los colectivos que estan por llegar
 ## Desarrollo
 Para levantar el entorno de desarrollo local
 
-### vercel dev
+```vercel dev```
 
 Para deployar en prod
 
-### vercel --prod
+```vercel --prod```
+
+## Actualizaciones
+
+## 🎯 Cómo funciona:
+
+### 1. **Usuario con app instalada**:
+```
+Usuario abre app → SW verifica actualizaciones → Detecta nueva versión
+→ Muestra notificación flotante verde → Usuario hace click en "Actualizar"
+→ App se recarga con nueva versión ✅
+```

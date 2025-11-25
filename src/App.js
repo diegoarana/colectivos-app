@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bus, Home, MapPin, Clock, ArrowLeft, RefreshCw, AlertCircle, Download } from 'lucide-react';
 
-// Simulación de endpoints (reemplaza con tus URLs reales)
 const ENDPOINTS = {
   centro: '/api/arribos?codLinea=0&idParada=LP1647',
   linea214: '/api/arribos?codLinea=169&idParada=LP2060',
@@ -16,7 +15,8 @@ function App() {
   const [error, setError] = useState(null);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [mostrarBotonInstalar, setMostrarBotonInstalar] = useState(false);
-  // poner colores similares a la linea de colectivos
+  //TODO: poner logica de mapeado de request en funcion serverless asi no mapeamos en el front
+  //TODO: arreglar header con titulo y botones de refresh e ir a inicio
 
     // Capturar evento de instalación PWA
   useEffect(() => {
@@ -142,6 +142,16 @@ function App() {
     </div>
   );
 
+  //TODO: ver si se puede cambiar por un objeto
+
+  const getColorFromLinea = (linea) => {
+    const lineaNum = parseInt(linea, 10);
+    if ([214].includes(lineaNum)) return 'red';
+    if ([520].includes(lineaNum)) return 'yellow';
+    if ([202].includes(lineaNum)) return 'orange';
+    return 'blue';
+  }
+
   const PantallaCentro = () => (
     <div className="min-h-screen bg-gray-50 pb-6">
       <div className="bg-blue-600 text-white p-6 shadow-lg">
@@ -183,7 +193,7 @@ function App() {
                 className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition"
               >
                 <div className="flex items-center gap-4">
-                  <div className="bg-blue-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg">
+                  <div className={`bg-${getColorFromLinea(colectivo.linea)}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
                     {colectivo.linea}
                   </div>
                   <div>
@@ -286,7 +296,7 @@ function App() {
                   className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="bg-purple-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg">
+                    <div className={`bg-${getColorFromLinea(colectivo.linea)}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
                       {colectivo.linea}
                     </div>
                     <div>

@@ -5,8 +5,15 @@ const ENDPOINTS = {
   centro: '/api/arribos?codLinea=0&idParada=LP1647',
   linea214: '/api/arribos?codLinea=169&idParada=LP2060',
   linea520: '/api/arribos?codLinea=284&idParada=LP2065',
-  linea202: '/api/arribos?codLinea=130&idParada=LP2065'
+  linea202: '/api/arribos?codLinea=130&idParada=LP2065',
+  angiToCentro: '/api/arribos?codLinea=0&idParada=LP 1636',
 };
+
+const COLORS_BY_LINE = {
+  '214': 'red',
+  '520': 'yellow',
+  '202': 'orange',
+}
 
 function App() {
   const [pantalla, setPantalla] = useState('inicio');
@@ -15,8 +22,10 @@ function App() {
   const [error, setError] = useState(null);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [mostrarBotonInstalar, setMostrarBotonInstalar] = useState(false);
+  //TODO: Separar componentes en varios archivos
   //TODO: poner logica de mapeado de request en funcion serverless asi no mapeamos en el front
-  //TODO: arreglar header con titulo y botones de refresh e ir a inicio
+  //TODO: Agregar feature para buscar por numero de parada
+  //TODO: mejorar ruteo de pantallas con react-router
 
     // Capturar evento de instalación PWA
   useEffect(() => {
@@ -50,7 +59,7 @@ function App() {
     setDeferredPrompt(null);
   };
 
-  const obtenerColectivos = async (endpoint, esHorarios = false) => {
+  const obtenerColectivos = async (endpoint) => {
     setCargando(true);
     setError(null);
     try {
@@ -98,6 +107,8 @@ function App() {
       obtenerColectivos(ENDPOINTS.linea520, true);
     } else if (pantalla === 'linea202') {
       obtenerColectivos(ENDPOINTS.linea202, true);
+    } else if (pantalla === 'angiToCentro') {
+      obtenerColectivos(ENDPOINTS.angiToCentro, true);
     }
   }, [pantalla]);
 
@@ -127,6 +138,14 @@ function App() {
             <Home className="w-5 h-5" />
             IR A CASA
           </button>
+          
+          <button
+            onClick={() => setPantalla('angiToCentro')}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3 shadow-lg"
+          >
+            <MapPin className="w-5 h-5" />
+            IR AL CENTRO DESDE ANGI
+          </button>
 
           {mostrarBotonInstalar && (
             <button
@@ -142,17 +161,7 @@ function App() {
     </div>
   );
 
-  //TODO: ver si se puede cambiar por un objeto
-
-  const getColorFromLinea = (linea) => {
-    const lineaNum = parseInt(linea, 10);
-    if ([214].includes(lineaNum)) return 'red';
-    if ([520].includes(lineaNum)) return 'yellow';
-    if ([202].includes(lineaNum)) return 'orange';
-    return 'blue';
-  }
-
-  const PantallaCentro = () => (
+  const PantallaCentro = ({fromStop}) => (
     <div className="min-h-screen bg-gray-50 pb-6">
       <div className="bg-blue-600 text-white p-6 shadow-lg">
         <button
@@ -163,18 +172,21 @@ function App() {
           Volver
         </button>
 
-        <div className='flex items-center justify-between'>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <MapPin className="w-6 h-6" />
-            Colectivos al Centro - Parada 66 y 121
+            Colectivos al Centro - Parada {fromStop}
           </h2>
-          <div className='text-right flex items-center gap-4'>
-            <BotoneraHeader />
-          </div>
-        </div>        
+       
       </div>
       
       <div className="p-4">
+
+        <div className='flex justify-end pb-4'>
+          <div className='text-right flex items-center gap-4'>
+            <BotoneraHeader />
+          </div>
+        </div>
+
         {cargando ? (
           <div className="flex justify-center items-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -193,7 +205,7 @@ function App() {
                 className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition"
               >
                 <div className="flex items-center gap-4">
-                  <div className={`bg-${getColorFromLinea(colectivo.linea)}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
+                  <div className={`bg-${COLORS_BY_LINE[colectivo.linea]}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
                     {colectivo.linea}
                   </div>
                   <div>
@@ -263,19 +275,20 @@ function App() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className='flex items-center justify-between'>
             <h2 className="text-2xl font-bold flex items-center gap-2">
               <Bus className="w-6 h-6" />
               Línea {numeroLinea} - Parada 7 y 49
             </h2>
+        </div>
+        
+        <div className="p-4">
+
+          <div className='flex justify-end pb-4'>
             <div className='text-right flex items-center gap-4'>
               <BotoneraHeader />
             </div>
           </div>
 
-        </div>
-        
-        <div className="p-4">
           {cargando ? (
             <div className="flex justify-center items-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
@@ -296,7 +309,7 @@ function App() {
                   className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition"
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`bg-${getColorFromLinea(colectivo.linea)}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
+                    <div className={`bg-${COLORS_BY_LINE[colectivo.linea]}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
                       {colectivo.linea}
                     </div>
                     <div>
@@ -362,8 +375,9 @@ function App() {
   return (
     <>
       {pantalla === 'inicio' && <PantallaInicio />}
-      {pantalla === 'centro' && <PantallaCentro />}
+      {pantalla === 'centro' && <PantallaCentro fromStop="66 y 121" />}
       {pantalla === 'casa' && <PantallaCasa />}
+      {pantalla === 'angiToCentro' && <PantallaCentro fromStop="122 y 77" />}
       {(pantalla === 'linea214' || pantalla === 'linea520' || pantalla === 'linea202') && <PantallaLinea />}
     </>
   );

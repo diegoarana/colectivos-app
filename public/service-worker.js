@@ -1,4 +1,4 @@
-const CACHE_NAME = 'colectivos-v2'; // ⬅️ CAMBIA ESTO en cada actualización
+const CACHE_NAME = 'colectivos-v3'; // ⬅️ CAMBIA ESTO en cada actualización
 const urlsToCache = [
   '/',
   '/index.html',

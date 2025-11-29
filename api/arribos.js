@@ -35,7 +35,16 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    res.status(200).json(data);
+
+    const colectivosFormateados = data.arribos.map((item, index) => ({
+      id: index + 1,
+      linea: item.descripcionLinea.split(" ")[1],
+      descripcionLinea: item.descripcionLinea,
+      tiempo: item.tiempoRestanteArribo,
+      destino: item.descripcionBandera
+    }));
+
+    res.status(200).json(colectivosFormateados);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Error al obtener datos', message: error.message });

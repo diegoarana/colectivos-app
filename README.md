@@ -5,9 +5,9 @@ hasta el centro y volver a casa
 
 ## TODO
 
-- Se puede crear un input para ingresar la parada, y que te muestre 
-los colectivos que estan por llegar
-- Poner colores similares a la de los micros para cada linea
+ - Realizar busqueda por numero de parada
+ - Buscar parada cercana
+ - Notificaciones
 
 ## Desarrollo
 Para levantar el entorno de desarrollo local

@@ -44,7 +44,7 @@ export const CityCenterScreen = () => {
 
         <div className='flex justify-end pb-4'>
           <div className='text-right flex items-center gap-4'>
-            <ButtonPanel />
+            <ButtonPanel onRefresh={() => obtenerColectivos(endpoint)} />
           </div>
         </div>
 

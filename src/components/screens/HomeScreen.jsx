@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Bus, Home, MapPin, Download } from 'lucide-react';
+import { Bus, Home, MapPin, Download, Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const HomeScreen = () => {
   const navigate = useNavigate();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [mostrarBotonInstalar, setMostrarBotonInstalar] = useState(false);
+  const [obtieniendoUbicacion, setObtieniendoUbicacion] = useState(false);
+  const [error, setError] = useState(null);
 
   // Capturar evento de instalación PWA
   useEffect(() => {
@@ -37,6 +39,59 @@ export const HomeScreen = () => {
     }
     
     setDeferredPrompt(null);
+  };
+
+  // Obtener paradas cercanas con geolocalización
+  const obtenerParadasCercanas = async () => {
+    if (!navigator.geolocation) {
+      setError('Tu dispositivo no soporta geolocalización');
+      return;
+    }
+
+    setObtieniendoUbicacion(true);
+    setError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        navigate('/paradas-cercanas', {
+          state: {
+            latitude,
+            longitude,
+          }
+        });
+      
+        setObtieniendoUbicacion(false);
+
+      },
+      (error) => {
+        setObtieniendoUbicacion(false);
+        let mensaje = 'No se pudo obtener tu ubicación';
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            mensaje = 'Debes permitir el acceso a tu ubicación';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            mensaje = 'Ubicación no disponible';
+            break;
+          case error.TIMEOUT:
+            mensaje = 'Tiempo de espera agotado';
+            break;
+          default:
+            mensaje = 'No se pudo obtener tu ubicación';
+            break;
+        }
+        
+        setError(mensaje);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    );
   };
 
   return (
@@ -71,6 +126,15 @@ export const HomeScreen = () => {
           >
             <MapPin className="w-5 h-5" />
             IR AL CENTRO DESDE 122 y 77
+          </button>
+
+          <button
+            onClick={obtenerParadasCercanas}
+            disabled={obtieniendoUbicacion}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Navigation className={`w-5 h-5 ${obtieniendoUbicacion ? 'animate-pulse' : ''}`} />
+            {obtieniendoUbicacion ? 'OBTENIENDO UBICACIÓN...' : 'PARADAS CERCANAS'}
           </button>
 
           {mostrarBotonInstalar && (

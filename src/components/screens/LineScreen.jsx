@@ -5,7 +5,7 @@ import { useColectivos } from '../../hooks/useColectivos';
 import { ErrorMessage } from '../ErrorMessage';
 import { ButtonPanel } from '../ButtonPanel';
 import { ENDPOINTS } from '../../constants/endpoints';
-import { COLORS_BY_LINE } from '../../constants/colorsByLine';
+import getColorByLine from '../../constants/colorsByLine';
 
 export const LineScreen = () => {
   const { linea } = useParams();
@@ -63,7 +63,7 @@ export const LineScreen = () => {
                 className="bg-white rounded-xl shadow-md p-4 flex items-center justify-between hover:shadow-lg transition"
               >
                 <div className="flex items-center gap-4">
-                  <div className={`bg-${COLORS_BY_LINE[colectivo.linea]}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
+                  <div className={`bg-${getColorByLine(colectivo.linea)}-600 text-white rounded-lg w-14 h-14 flex items-center justify-center font-bold text-lg`}>
                     {colectivo.linea}
                   </div>
                   <div>

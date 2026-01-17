@@ -4,4 +4,6 @@ export const ENDPOINTS = {
   linea520: '/api/arribos?codLinea=284&idParada=LP2065',
   linea202: '/api/arribos?codLinea=130&idParada=LP2065',
   angiToCentro: '/api/arribos?codLinea=0&idParada=LP 1636',
+  getNearStops: '/api/paradas-cercanas',
+  getBusesByStop: '/api/arribos?codLinea={codLinea}&idParada={idParada}'
 };

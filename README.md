@@ -4,9 +4,6 @@ Progressive web app desarrollada con React y deployada con Vercel, que tiene sol
 hasta el centro y volver a casa
 
 ## TODO
-
- - Realizar busqueda por numero de parada
- - Buscar parada cercana
  - Notificaciones
 
 ## Desarrollo

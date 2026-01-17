@@ -1,33 +1,29 @@
 import React, { useEffect } from 'react';
 import { MapPin, Clock, ArrowLeft } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useColectivos } from '../../hooks/useColectivos';
 import { ErrorMessage } from '../ErrorMessage';
 import { ButtonPanel } from '../ButtonPanel';
 import { ENDPOINTS } from '../../constants/endpoints';
 import getColorByLine from '../../constants/colorsByLine';
 
-const PARADAS = {
-  'LP1647': '66 y 121',
-  'LP1636': '122 y 77'
-};
-
-export const CityCenterScreen = () => {
-  const { parada } = useParams();
+export const StopScreen = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const { colectivos, cargando, error, obtenerColectivos } = useColectivos();
+  const location = useLocation();
+  const { intersection } = location.state || {};
 
-  const endpoint = parada === 'LP1636' ? ENDPOINTS.angiToCentro : ENDPOINTS.centro;
-
+  const endpoint = ENDPOINTS.getBusesByStop.replace('{codLinea}', '0').replace('{idParada}', id);
   useEffect(() => {
     obtenerColectivos(endpoint);
-  }, [parada]);
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-6">
       <div className="bg-blue-600 text-white p-6 shadow-lg">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           className="flex items-center gap-2 mb-4 hover:opacity-80 transition"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -36,7 +32,7 @@ export const CityCenterScreen = () => {
 
         <h2 className="text-2xl font-bold flex items-center gap-2 mb-4">
           <MapPin className="w-6 h-6" />
-          Colectivos al Centro - Parada {PARADAS[parada] || parada}
+          Parada {intersection}
         </h2>
       </div>
       

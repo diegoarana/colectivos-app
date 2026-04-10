@@ -32,6 +32,13 @@ export const LineSelectionScreen = () => {
               Línea {linea}
             </button>
           ))}
+            <button
+              key={'31y66'}
+              onClick={() => navigate(`/centro/LP2464`)}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-xl transition duration-200 text-xl shadow-lg"
+            >
+              Desde 31 y 66
+            </button>
         </div>
       </div>
     </div>

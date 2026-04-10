@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { MapPin, Clock, ArrowLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +10,8 @@ import getColorByLine from '../../constants/colorsByLine';
 
 const PARADAS = {
   'LP1647': '66 y 121',
-  'LP1636': '122 y 77'
+  'LP1636': '122 y 77',
+  'LP2464': '31 y 66'
 };
 
 export const CityCenterScreen = () => {
@@ -17,7 +19,9 @@ export const CityCenterScreen = () => {
   const navigate = useNavigate();
   const { colectivos, cargando, error, obtenerColectivos } = useColectivos();
 
-  const endpoint = parada === 'LP1636' ? ENDPOINTS.angiToCentro : ENDPOINTS.centro;
+  const buildUrl = () => ENDPOINTS.centro.replace('{idParada}', parada)
+
+  const endpoint = parada === 'LP1636' ? ENDPOINTS.angiToCentro : buildUrl();
 
   useEffect(() => {
     obtenerColectivos(endpoint);

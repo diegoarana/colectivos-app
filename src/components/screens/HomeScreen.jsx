@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Bus, Home, MapPin, Download, Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import packageJson from '../../../package.json';
 
 export const HomeScreen = () => {
   const navigate = useNavigate();
@@ -146,6 +148,10 @@ export const HomeScreen = () => {
               INSTALAR APP
             </button>
           )}
+        </div>
+        
+        <div className="mt-6 text-center text-xs text-gray-400">
+          v{packageJson.version}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { Bus, Clock, ArrowLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';

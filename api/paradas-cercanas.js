@@ -20,10 +20,10 @@ export default async function handler(req, res) {
       {
         method: 'POST',
         headers: {
-          'Cookie': 'X-CSRF-TOKEN-CL=CfDJ8MADeALVvYxFoMvdbNFBXv8heNDf_vHmTrPWeeagELq7X7rdSH_E9NIMwA6BtSTqoM0jRLLcuhVJJF-4OGZeu7YbBc2_fY-j4-JGnbpN_j9ZsXEp-_A7NHw5Y9Z_of_zs5Pog3bHanBzHzlqUh_t5OY',
+          'Cookie': 'X-CSRF-TOKEN-CL=CfDJ8JNi9pSN7ulLrO8clLGE1XDfG7lfgzkMFKznWKpcEmI6Ap3Icb_IEC5Tz_YtZqP21BBXt7bmDx3QqGmSbH41xUDpdy-MjYO6NdE2U3egMnmwdmYjtWHlzpI4_PAkVxbo0vrTJ-RdEKWMl02tuVckUtU',
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'RequestVerificationToken': 'CfDJ8MADeALVvYxFoMvdbNFBXv8YCgk3F6vtGKXatcpuMKJpwNRu6HzPWjoZQPY-FQje7NaQnekR5N8Le-Qvnon-3dQJMddDavV5vQKRdpUsEBmnxx4JqVwvAEFo8jwHIyP1J94L__BH4KsgYJrKcCL_mzU'
+          'RequestVerificationToken': 'CfDJ8JNi9pSN7ulLrO8clLGE1XCmkIN91rtUIzDLc1gZz7B9OzG846vHV-24LFsofCQ3JMT3IzpWTdZDUd8W-hLp6P7GUZydYKRqWH5dnWLA5ffFuL0O4RHenF4nElAyh1Rgn0-qsvxWHpSbTkkFw-Pn0WM'
         },
         body: JSON.stringify({
           latitud: parseFloat(latitud),

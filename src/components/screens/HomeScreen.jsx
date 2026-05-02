@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Bus, Home, MapPin, Download, Navigation } from 'lucide-react';
+import { Bus, Home, MapPin, Download, Navigation, Stethoscope } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import packageJson from '../../../package.json';
 

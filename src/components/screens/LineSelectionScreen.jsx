@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Home, ArrowLeft, Stethoscope } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const LineSelectionScreen = () => {
@@ -32,6 +32,14 @@ export const LineSelectionScreen = () => {
               Línea {linea}
             </button>
           ))}
+
+            <button
+              onClick={() => navigate('/from-matheu')}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-200 flex items-center justify-center gap-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Stethoscope className={`w-5 h-5 animate-pulse`} />
+              Desde 66 y 115
+            </button>
             <button
               key={'31y66'}
               onClick={() => navigate(`/centro/LP2464`)}

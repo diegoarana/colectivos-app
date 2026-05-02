@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { HomeScreen } from './components/screens/HomeScreen';
 import { CityCenterScreen } from './components/screens/CityCenterScreen';
+import { FromMatheuScreen } from './components/screens/FromMatheuScreen';
 import { LineSelectionScreen } from './components/screens/LineSelectionScreen';
 import { LineScreen } from './components/screens/LineScreen';
 import { NearStopsScreen } from './components/screens/NearStopsScreen';
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/centro/:parada" element={<CityCenterScreen />} />
+        <Route path="/from-matheu" element={<FromMatheuScreen />} />
         <Route path="/casa" element={<LineSelectionScreen />} />
         <Route path="/linea/:linea" element={<LineScreen />} />
         <Route path="/paradas-cercanas" element={<NearStopsScreen />} />
